@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, Calculator, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { useGetComparisonsQuery, useGetCategoriesQuery } from "../lib/features/api/apiSlice";
-import ThreeFullPageBackground from "../components/ThreeFullPageBackground";
 
 interface CalculatorItem {
   id: string;
@@ -65,67 +64,46 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 relative">
-      <ThreeFullPageBackground />
+    <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-12 md:py-24 mb-16 select-none pointer-events-none">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-          
-          {/* Lower Left Headline */}
-          <div className="md:col-span-8 flex flex-col justify-end pt-12 md:pt-36 order-2 md:order-1">
-            <h1 className="text-5xl font-black tracking-tighter sm:text-7xl lg:text-8xl text-foreground font-display leading-[0.9] drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
-              The world&apos;s
-              <br />
-              most powerful
-              <br />
-              <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-indigo-400 bg-clip-text text-transparent font-display">
-                open source
-              </span>
-              <br />
-              directory.
+      <section className="mb-24">
+        <div className="space-y-12">
+          {/* Headline */}
+          <div>
+            <p className="text-sm text-white/50 font-medium tracking-widest uppercase mb-4">Open Source Directory</p>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight max-w-4xl">
+              Find free alternatives to expensive software.
             </h1>
+            <p className="text-xl text-white/60 mt-8 max-w-2xl leading-relaxed font-light">
+              Discover open-source alternatives to popular commercial tools. Save your team thousands on subscriptions while getting powerful features.
+            </p>
           </div>
 
-          {/* Upper Right Subtitle & Description */}
-          <div className="md:col-span-4 flex flex-col justify-between pt-4 pb-6 md:pb-2 text-left order-1 md:order-2">
-            <div className="max-w-xs md:ml-auto">
-              <p className="text-xs font-bold tracking-widest text-teal-400 uppercase font-sans mb-3">
-                AltFinder Core
-              </p>
-              <p className="text-xl md:text-2xl font-medium text-foreground/90 font-sans leading-tight">
-                Find alternatives using open source instead of expensive code.
-              </p>
-            </div>
-            
-            <div className="max-w-xs md:ml-auto mt-12 md:mt-32">
-              <p className="text-sm text-muted-foreground font-sans leading-relaxed mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-                Your software stack should be a channel for growth, not an engineering or subscription license expense challenge.
-              </p>
-              <Link href="/add" className="inline-block pointer-events-auto">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold tracking-widest uppercase px-6 py-3.5 rounded-none shadow-lg shadow-teal-500/10 active:scale-95 transition-all">
-                  Generate with AI
-                </Button>
-              </Link>
-            </div>
+          {/* CTA Button */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link href="/add" className="inline-block">
+              <Button className="bg-primary hover:bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+                Generate Comparison
+              </Button>
+            </Link>
+            <Link href="/" className="inline-block">
+              <Button className="bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3 rounded-lg border border-white/10 transition-colors">
+                Browse Directory
+              </Button>
+            </Link>
           </div>
-
         </div>
       </section>
 
       {/* Savings Calculator Widget */}
-      <section className="mb-16 rounded-none border border-white/5 bg-white/2 p-6 backdrop-blur-xl md:p-8">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+      <section className="mb-24 border border-white/10 rounded-xl bg-white/5 p-8 md:p-10">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           
           <div className="lg:col-span-7">
-            <div className="flex items-center gap-3 mb-4">
-              <Calculator className="h-5 w-5 text-indigo-400" />
-              <h2 className="text-lg font-bold tracking-tight text-white uppercase font-display">
-                Open Source Savings Calculator
-              </h2>
-            </div>
-            <p className="text-sm text-slate-400 mb-6 font-sans">
-              Select the software services you are currently paying for to estimate how much you would save by migrating to open-source alternatives:
+            <h2 className="text-2xl font-bold text-white mb-3">Estimate Your Savings</h2>
+            <p className="text-white/60 mb-8 text-base leading-relaxed">
+              Select the tools you currently pay for to see how much you could save annually with open-source alternatives.
             </p>
             
             <div className="grid gap-3 sm:grid-cols-2">
@@ -133,15 +111,15 @@ export default function Home() {
                 <button
                   key={item.id}
                   onClick={() => toggleCalculatorItem(item.id)}
-                  className={`flex items-center justify-between rounded-none border p-4 text-left transition-all ${
+                  className={`flex items-center justify-between border rounded-lg p-3 text-left transition-all ${
                     checkedItems[item.id]
-                      ? "border-indigo-500 bg-indigo-500/10 shadow-[0_0_15px_rgba(99,102,241,0.15)] text-white"
-                      : "border-white/5 bg-white/2 text-slate-300 hover:border-white/10 hover:bg-white/5"
+                      ? "border-blue-500/50 bg-blue-500/10 text-white"
+                      : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/10"
                   }`}
                 >
-                  <span className="text-sm font-semibold font-sans">{item.name}</span>
-                  <span className={`text-xs px-2 py-1 rounded-none font-mono ${
-                    checkedItems[item.id] ? "bg-indigo-500/25 text-indigo-200" : "bg-white/5 text-slate-400"
+                  <span className="text-sm font-medium">{item.name}</span>
+                  <span className={`text-xs px-2 py-1 rounded font-mono ${
+                    checkedItems[item.id] ? "bg-blue-500/30 text-blue-100" : "bg-white/10 text-white/60"
                   }`}>
                     ${item.price.toFixed(2)}/mo
                   </span>
@@ -150,15 +128,15 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="lg:col-span-5 flex flex-col items-center justify-center rounded-none bg-white/2 border border-white/5 p-8 text-center h-full min-h-[220px]">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase font-sans">
-              Estimated Yearly Savings
+          <div className="lg:col-span-5 flex flex-col items-center justify-center border border-white/10 rounded-xl bg-gradient-to-br from-blue-500/10 to-white/5 p-8 text-center">
+            <span className="text-xs font-medium text-white/50 tracking-wider uppercase">
+              Yearly Savings
             </span>
-            <span className="mt-4 text-5xl font-black font-display bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(34,197,94,0.15)]">
+            <span className="mt-4 text-5xl font-bold text-white">
               ${yearlySavings.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
-            <p className="mt-4 text-xs text-slate-500 font-sans max-w-[280px]">
-              Calculated based on standard single-user license fees. Real savings scale up for large team environments.
+            <p className="mt-4 text-xs text-white/50 max-w-[280px]">
+              Based on single-user pricing. Savings increase with team size.
             </p>
           </div>
           
@@ -167,19 +145,20 @@ export default function Home() {
 
       {/* Main Directory & Filters */}
       <section>
+        <h2 className="text-3xl font-bold text-white mb-8">Browse Alternatives</h2>
         
         {/* Search & Pills */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
           
           {/* Search Input */}
           <div className="relative w-full max-w-md">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
             <input
               type="text"
-              placeholder="Search commercial or open source software..."
+              placeholder="Search alternatives..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-none border border-white/5 bg-white/2 py-2.5 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-400 backdrop-blur-xl transition-all focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full border border-white/10 bg-white/5 rounded-lg py-3 pl-10 pr-4 text-sm text-white placeholder-white/40 transition-all focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/50"
             />
           </div>
           
@@ -189,10 +168,10 @@ export default function Home() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`rounded-none px-4 py-1.5 text-xs font-semibold tracking-wide uppercase transition-all ${
+                className={`px-4 py-2 text-xs font-medium rounded-lg transition-all ${
                   selectedCategory === cat
-                    ? "bg-indigo-600 text-white shadow-[0_0_10px_rgba(99,102,241,0.3)]"
-                    : "bg-white/5 border border-white/5 text-slate-300 hover:bg-white/10 hover:border-white/10"
+                    ? "bg-blue-600 text-white"
+                    : "bg-white/5 border border-white/10 text-white/70 hover:bg-white/10"
                 }`}
               >
                 {cat}
@@ -205,56 +184,56 @@ export default function Home() {
         {/* Directory Grid */}
         {loading ? (
           <div className="flex justify-center items-center py-24">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"></div>
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
           </div>
         ) : comparisons.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {comparisons.map((item) => (
-              <div 
-                key={item.slug} 
-                className="group relative rounded-none border border-white/5 bg-white/2 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/15 hover:bg-white/5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+              <Link
+                key={item.slug}
+                href={`/alternatives/${item.slug}`}
+                className="group border border-white/10 rounded-xl bg-white/5 p-6 transition-all hover:border-blue-500/50 hover:bg-white/10 hover:shadow-lg"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs px-2.5 py-0.5 rounded-none font-semibold uppercase tracking-wider bg-white/5 text-slate-300 border border-white/5">
+                  <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-white/10 text-white/70">
                     {item.category}
                   </span>
-                  <span className="text-xs font-semibold text-green-400 bg-green-500/10 px-2 py-0.5 rounded-none border border-green-500/10">
-                    {item.upvoteCount} Upvotes
+                  <span className="text-xs font-medium text-green-400">
+                    ↑ {item.upvoteCount}
                   </span>
                 </div>
                 
-                <h3 className="text-xl font-bold tracking-tight text-white mb-2 font-display">
-                  {item.commercialName} <span className="text-slate-500 font-normal">vs</span> {item.alternativeName}
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                  {item.commercialName}
                 </h3>
                 
-                <p className="text-sm text-slate-400 line-clamp-3 mb-6 font-sans">
+                <p className="text-sm text-white/60 line-clamp-2 mb-4">
+                  vs <span className="font-semibold text-white">{item.alternativeName}</span>
+                </p>
+
+                <p className="text-sm text-white/50 line-clamp-2 mb-4">
                   {item.alternativeDescription}
                 </p>
 
-                <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                  <span className="text-xs text-slate-500 font-mono">
+                <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                  <span className="text-xs text-white/50">
                     Saves ${item.commercialPriceNumeric}/{item.commercialPricePeriod === "monthly" ? "mo" : "yr"}
                   </span>
-                  <Link 
-                    href={`/alternatives/${item.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-400 group-hover:text-indigo-300 transition-colors"
-                  >
-                    View Comparison <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                  <ArrowRight className="h-4 w-4 text-white/40 group-hover:text-blue-400 transition-colors" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 rounded-none border border-dashed border-white/10 bg-white/1 backdrop-blur-xl">
-            <Sparkles className="h-8 w-8 text-indigo-400 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-white mb-2 font-display">No Alternatives Found</h3>
-            <p className="text-sm text-slate-400 max-w-sm mx-auto mb-6 font-sans">
-              We couldn&apos;t find comparisons for that query. You can ask our Gemini AI to analyze and generate a comparison instantly!
+          <div className="text-center py-20 border border-white/10 rounded-xl bg-white/5">
+            <Sparkles className="h-8 w-8 text-white/40 mx-auto mb-4" />
+            <h3 className="text-lg font-bold text-white mb-2">No Results Found</h3>
+            <p className="text-sm text-white/60 max-w-sm mx-auto mb-6">
+              Couldn&apos;t find any comparisons. Generate a new one with AI.
             </p>
             <Link href="/add">
-              <Button className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-none shadow-lg">
-                Generate with AI
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                Generate Comparison
               </Button>
             </Link>
           </div>
