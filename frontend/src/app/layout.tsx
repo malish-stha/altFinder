@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "../lib/utils";
-import { Geist, Geist_Mono, Noto_Sans, Nunito_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
 import Header from "../components/Header";
 import StoreProvider from "./StoreProvider";
 
-const nunitoSansHeading = Nunito_Sans({
+const notoSansHeading = Noto_Sans({
   subsets: ["latin"],
   variable: "--font-heading",
 });
@@ -49,10 +49,10 @@ export default function RootLayout({
             geistMono.variable,
             "font-sans",
             notoSans.variable,
-            nunitoSansHeading.variable
+            notoSansHeading.variable
           )}
         >
-          <body className="min-h-full flex flex-col bg-[#07090e] text-slate-100 selection:bg-indigo-500/30">
+          <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-indigo-500/30">
 
             {/* Render the Client Header component */}
             <Header />

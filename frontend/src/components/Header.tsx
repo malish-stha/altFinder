@@ -39,7 +39,7 @@ export default function Header() {
             <UserButton 
               appearance={{
                 elements: {
-                  avatarBox: "border border-white/10 w-8 h-8 rounded-full"
+                  avatarBox: "border border-white/10 w-8 h-8 rounded-none"
                 }
               }}
             />
@@ -47,7 +47,7 @@ export default function Header() {
           <Show when="signed-out">
             <Link
               href="/sign-in"
-              className="inline-flex items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-950 shadow-md transition-all hover:bg-slate-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center justify-center rounded-none bg-white px-4 py-2 text-sm font-semibold text-slate-950 shadow-md transition-all hover:bg-slate-200 hover:scale-[1.02] active:scale-[0.98]"
             >
               Sign In
             </Link>

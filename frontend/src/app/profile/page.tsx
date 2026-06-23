@@ -58,7 +58,7 @@ export default function UserProfile() {
       </div>
 
       {/* User Introduction Banner */}
-      <section className="mb-12 rounded-2xl border border-white/5 bg-white/2 p-6 md:p-8 backdrop-blur-xl">
+      <section className="mb-12 rounded-none border border-white/5 bg-white/2 p-6 md:p-8 backdrop-blur-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             {user?.imageUrl ? (
@@ -66,15 +66,15 @@ export default function UserProfile() {
               <img
                 src={user.imageUrl}
                 alt="Profile Avatar"
-                className="h-16 w-16 rounded-full border-2 border-indigo-500/20"
+                className="h-16 w-16 rounded-none border-2 border-indigo-500/20"
               />
             ) : (
-              <div className="h-16 w-16 rounded-full bg-indigo-500/10 border-2 border-indigo-500/20 flex items-center justify-center font-bold text-white text-2xl">
+              <div className="h-16 w-16 rounded-none bg-indigo-500/10 border-2 border-indigo-500/20 flex items-center justify-center font-bold text-white text-2xl">
                 {user?.firstName?.charAt(0) || "U"}
               </div>
             )}
             <div>
-              <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/10">
+              <span className="text-xs px-2.5 py-0.5 rounded-none font-semibold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/10">
                 AltFinder Member
               </span>
               <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-1 text-white font-display">
@@ -83,7 +83,7 @@ export default function UserProfile() {
             </div>
           </div>
 
-          <div className="flex flex-col rounded-xl bg-white/2 border border-white/5 px-6 py-4 min-w-[200px]">
+          <div className="flex flex-col rounded-none bg-white/2 border border-white/5 px-6 py-4 min-w-[200px]">
             <span className="text-xxs font-semibold text-slate-400 uppercase tracking-wider">
               Total Managed Savings
             </span>
@@ -112,16 +112,16 @@ export default function UserProfile() {
             {bookmarks.map((item) => (
               <div
                 key={item.slug}
-                className="group relative rounded-2xl border border-white/5 bg-white/2 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/15 hover:bg-white/5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+                className="group relative rounded-none border border-white/5 bg-white/2 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/15 hover:bg-white/5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider bg-white/5 text-slate-300 border border-white/5">
+                  <span className="text-xs px-2.5 py-0.5 rounded-none font-semibold uppercase tracking-wider bg-white/5 text-slate-300 border border-white/5">
                     {item.category}
                   </span>
 
                   <button
                     onClick={() => removeBookmark(item.slug)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent transition-all"
+                    className="p-1.5 rounded-none text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent transition-all"
                     title="Remove from stack"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -151,14 +151,14 @@ export default function UserProfile() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 rounded-2xl border border-dashed border-white/10 bg-white/1 backdrop-blur-xl">
+          <div className="text-center py-20 rounded-none border border-dashed border-white/10 bg-white/1 backdrop-blur-xl">
             <ShieldCheck className="h-8 w-8 text-indigo-400 mx-auto mb-4" />
             <h3 className="text-lg font-bold text-white mb-2 font-display">Your Stack is Empty</h3>
             <p className="text-sm text-slate-400 max-w-xs mx-auto mb-6 font-sans">
               You haven&apos;t bookmarked any open-source alternatives yet. Explore the directory and add tools to your custom stack!
             </p>
             <Link href="/">
-              <Button className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-lg">
+              <Button className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-none shadow-lg">
                 Explore Directory
               </Button>
             </Link>

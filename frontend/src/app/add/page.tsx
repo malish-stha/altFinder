@@ -63,7 +63,7 @@ export default function AddAlternative() {
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6 lg:px-8">
       
       {!submitting ? (
-        <div className="rounded-2xl border border-white/5 bg-white/2 p-6 backdrop-blur-xl md:p-8">
+        <div className="rounded-none border border-white/5 bg-white/2 p-6 backdrop-blur-xl md:p-8">
           <div className="flex items-center gap-3 mb-4">
             <Sparkles className="h-6 w-6 text-indigo-400 animate-pulse" />
             <h1 className="text-2xl font-bold tracking-tight text-white font-display uppercase">
@@ -76,7 +76,7 @@ export default function AddAlternative() {
           </p>
 
           {errorMsg && (
-            <div className="mb-6 rounded-xl border border-rose-500/10 bg-rose-500/5 p-4 flex items-start gap-3 text-sm text-rose-300">
+            <div className="mb-6 rounded-none border border-rose-500/10 bg-rose-500/5 p-4 flex items-start gap-3 text-sm text-rose-300">
               <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold font-display">Generation Interrupted</p>
@@ -97,13 +97,13 @@ export default function AddAlternative() {
                 placeholder="e.g. Zoom, Premiere Pro, Shopify"
                 value={softwareName}
                 onChange={(e) => setSoftwareName(e.target.value)}
-                className="w-full rounded-xl border border-white/5 bg-white/2 py-3 px-4 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all font-sans"
+                className="w-full rounded-none border border-white/5 bg-white/2 py-3 px-4 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all font-sans"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl py-6 font-semibold flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-[1.01] active:scale-[0.99]"
+              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white rounded-none py-6 font-semibold flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-[1.01] active:scale-[0.99]"
             >
               Analyze with Gemini <ArrowRight className="h-4 w-4" />
             </Button>
@@ -111,7 +111,7 @@ export default function AddAlternative() {
         </div>
       ) : (
         /* Dynamic Multi-Step Loader */
-        <div className="rounded-2xl border border-white/5 bg-white/2 p-8 backdrop-blur-xl text-center">
+        <div className="rounded-none border border-white/5 bg-white/2 p-8 backdrop-blur-xl text-center">
           <Loader2 className="h-10 w-10 text-indigo-400 animate-spin mx-auto mb-6" />
           
           <h2 className="text-xl font-bold text-white mb-2 font-display uppercase tracking-wide">
