@@ -83,12 +83,12 @@ export default function Home() {
           {/* CTA Button */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/add" className="inline-block">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-3 rounded-lg transition-colors">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-3 transition-colors">
                 Generate Comparison
               </Button>
             </Link>
             <Link href="/" className="inline-block">
-              <Button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-8 py-3 rounded-lg border border-border transition-colors">
+              <Button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-8 py-3 border border-border transition-colors">
                 Browse Directory
               </Button>
             </Link>
@@ -97,7 +97,7 @@ export default function Home() {
       </section>
 
       {/* Savings Calculator Widget */}
-      <section className="mb-24 border border-border rounded-xl bg-card p-8 md:p-10">
+      <section className="mb-24 border border-border bg-card p-8 md:p-10">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           
           <div className="lg:col-span-7">
@@ -111,14 +111,14 @@ export default function Home() {
                 <button
                   key={item.id}
                   onClick={() => toggleCalculatorItem(item.id)}
-                  className={`flex items-center justify-between border rounded-lg p-3 text-left transition-all ${
+                  className={`flex items-center justify-between border p-3 text-left transition-all ${
                     checkedItems[item.id]
                       ? "border-primary/50 bg-primary/10 text-foreground"
                       : "border-border bg-secondary text-muted-foreground hover:border-primary/30"
                   }`}
                 >
                   <span className="text-sm font-medium">{item.name}</span>
-                  <span className={`text-xs px-2 py-1 rounded font-mono ${
+                  <span className={`text-xs px-2 py-1 font-mono ${
                     checkedItems[item.id] ? "bg-primary/30 text-primary" : "bg-muted text-muted-foreground"
                   }`}>
                     ${item.price.toFixed(2)}/mo
@@ -128,7 +128,7 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="lg:col-span-5 flex flex-col items-center justify-center border border-border rounded-xl bg-secondary p-8 text-center">
+          <div className="lg:col-span-5 flex flex-col items-center justify-center border border-border bg-secondary p-8 text-center">
             <span className="text-xs font-medium text-muted-foreground tracking-wider uppercase">
               Yearly Savings
             </span>
@@ -158,7 +158,7 @@ export default function Home() {
               placeholder="Search alternatives..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full border border-border bg-secondary rounded-lg py-3 pl-10 pr-4 text-sm text-foreground placeholder-muted-foreground transition-all focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
+              className="w-full border border-border bg-secondary py-3 pl-10 pr-4 text-sm text-foreground placeholder-muted-foreground transition-all focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
             />
           </div>
           
@@ -168,7 +168,7 @@ export default function Home() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-xs font-medium rounded-lg transition-all ${
+                className={`px-4 py-2 text-xs font-medium transition-all ${
                   selectedCategory === cat
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary border border-border text-muted-foreground hover:bg-card"
@@ -192,10 +192,10 @@ export default function Home() {
               <Link
                 key={item.slug}
                 href={`/alternatives/${item.slug}`}
-                className="group border border-border rounded-xl bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg"
+                className="group border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-secondary text-muted-foreground">
+                  <span className="text-xs px-2.5 py-1 font-medium bg-secondary text-muted-foreground">
                     {item.category}
                   </span>
                   <span className="text-xs font-medium text-primary">
@@ -225,14 +225,14 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 border border-border rounded-xl bg-card">
+          <div className="text-center py-20 border border-border bg-card">
             <Sparkles className="h-8 w-8 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-bold text-foreground mb-2">No Results Found</h3>
             <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-6">
               Couldn&apos;t find any comparisons. Generate a new one with AI.
             </p>
             <Link href="/add">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 Generate Comparison
               </Button>
             </Link>

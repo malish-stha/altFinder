@@ -74,7 +74,7 @@ export default function AddAlternative() {
           </div>
 
           {errorMsg && (
-            <div className="border border-destructive/30 bg-destructive/10 rounded-lg p-4 flex items-start gap-3">
+            <div className="border border-destructive/30 bg-destructive/10 p-4 flex items-start gap-3">
               <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold text-destructive">Generation Failed</p>
@@ -95,13 +95,13 @@ export default function AddAlternative() {
                 placeholder="e.g. Photoshop, Salesforce, Slack"
                 value={softwareName}
                 onChange={(e) => setSoftwareName(e.target.value)}
-                className="w-full border border-border bg-secondary rounded-lg py-3 px-4 text-foreground placeholder-muted-foreground transition-all focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                className="w-full border border-border bg-secondary py-3 px-4 text-foreground placeholder-muted-foreground transition-all focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 font-semibold flex items-center justify-center gap-2 rounded-lg transition-colors"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 font-semibold flex items-center justify-center gap-2 transition-colors"
             >
               Generate with AI <ArrowRight className="h-4 w-4" />
             </Button>
@@ -131,7 +131,7 @@ export default function AddAlternative() {
                 {loadingStep > idx ? (
                   <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5 flex-shrink-0" />
                 ) : (
-                  <div className={`h-5 w-5 rounded-full border-2 shrink-0 mt-0.5 flex-shrink-0 ${
+                  <div className={`h-5 w-5 border-2 shrink-0 mt-0.5 flex-shrink-0 ${
                     loadingStep === idx ? "border-primary border-t-transparent animate-spin" : "border-border"
                   }`} />
                 )}

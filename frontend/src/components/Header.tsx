@@ -45,7 +45,7 @@ export default function Header() {
           <Show when="signed-out">
             <Link
               href="/sign-in"
-              className="text-sm px-4 py-2 text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg hover:bg-secondary"
+              className="text-sm px-4 py-2 text-muted-foreground hover:text-foreground transition-colors border border-border hover:bg-secondary"
             >
               Sign In
             </Link>
