@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, Calculator, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Calculator, Sparkles, ArrowRight, TrendingUp, Users, Zap } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { useGetComparisonsQuery, useGetCategoriesQuery } from "../lib/features/api/apiSlice";
 
@@ -64,51 +64,127 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-      
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 md:py-32 mb-20 select-none pointer-events-none">
-        <div className="space-y-12 md:space-y-20">
+    <div className="relative min-h-screen flex flex-col">
+      {/* Hero Section with Background */}
+      <section className="relative overflow-hidden pt-16 md:pt-24 pb-20 md:pb-32 mb-4 select-none pointer-events-none">
+        {/* Gradient Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-50"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 opacity-30"></div>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative space-y-12 md:space-y-16">
           
           {/* Header Label */}
           <div>
-            <p className="text-xs font-semibold tracking-widest text-primary uppercase font-sans mb-8">
-              Open Source Directory
-            </p>
+            <div className="inline-block mb-8">
+              <p className="text-xs font-semibold tracking-widest text-primary uppercase font-sans bg-primary/10 border border-primary/30 px-4 py-2">
+                ✨ The Open Source Directory
+              </p>
+            </div>
           </div>
 
-          {/* Main Headline */}
-          <div className="max-w-4xl">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground font-display leading-[1.1] mb-8">
-              Find smarter
-              <br />
-              <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent font-display">
-                alternatives.
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground font-sans leading-relaxed max-w-2xl">
-              Discover powerful open source solutions that replace expensive proprietary software. Build smarter, spend less, and own your stack.
-            </p>
-          </div>
+          {/* Main Headline & CTA Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+            <div className="lg:col-span-2">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-foreground font-display leading-[1.15] mb-6">
+                Find smarter
+                <br />
+                <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent font-display">
+                  alternatives
+                </span>
+                <br />
+                to everything.
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground font-sans leading-relaxed max-w-2xl mb-8">
+                Discover powerful open source solutions that replace expensive proprietary software. Save thousands. Build smarter. Own your stack.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4">
+                <Link href="/add" className="inline-block pointer-events-auto">
+                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-semibold tracking-wide px-8 py-4 rounded-none shadow-lg shadow-primary/30 active:scale-95 transition-all w-full sm:w-auto">
+                    Generate Comparison
+                  </Button>
+                </Link>
+                <p className="text-xs text-muted-foreground font-sans">
+                  Powered by AI analysis • Instant comparisons
+                </p>
+              </div>
+            </div>
 
-          {/* CTA & Description */}
-          <div className="flex flex-col sm:flex-row sm:items-end sm:gap-12 gap-6">
-            <Link href="/add" className="inline-block pointer-events-auto w-fit">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-semibold tracking-wide px-8 py-3.5 rounded-none shadow-lg shadow-primary/20 active:scale-95 transition-all">
-                Generate Comparison
-              </Button>
-            </Link>
-            <p className="text-sm text-muted-foreground font-sans max-w-sm">
-              Compare popular tools with open source alternatives powered by AI analysis.
-            </p>
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 gap-4">
+              <div className="border border-border bg-card/40 backdrop-blur-sm p-6 pointer-events-auto">
+                <div className="flex items-center gap-3 mb-3">
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Comparisons</span>
+                </div>
+                <p className="text-3xl font-black text-foreground font-display">150+</p>
+                <p className="text-xs text-muted-foreground mt-2">Open source options analyzed</p>
+              </div>
+
+              <div className="border border-border bg-card/40 backdrop-blur-sm p-6 pointer-events-auto">
+                <div className="flex items-center gap-3 mb-3">
+                  <Users className="h-5 w-5 text-primary" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Community</span>
+                </div>
+                <p className="text-3xl font-black text-foreground font-display">10k+</p>
+                <p className="text-xs text-muted-foreground mt-2">Developers exploring alternatives</p>
+              </div>
+
+              <div className="border border-border bg-card/40 backdrop-blur-sm p-6 pointer-events-auto">
+                <div className="flex items-center gap-3 mb-3">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Average</span>
+                </div>
+                <p className="text-3xl font-black text-foreground font-display">$5k+</p>
+                <p className="text-xs text-muted-foreground mt-2">Saved per organization</p>
+              </div>
+            </div>
           </div>
 
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative mb-32">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-4 p-6 border border-border/50 bg-card/20 backdrop-blur-sm hover:border-primary/50 transition-all duration-300">
+            <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center">
+              <Zap className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground font-display">100% Free</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              All alternatives are open source and free to use. No subscriptions, no vendor lock-in.
+            </p>
+          </div>
+
+          <div className="space-y-4 p-6 border border-border/50 bg-card/20 backdrop-blur-sm hover:border-primary/50 transition-all duration-300">
+            <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center">
+              <TrendingUp className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground font-display">AI-Powered</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Gemini AI analyzes your needs and generates detailed comparisons instantly.
+            </p>
+          </div>
+
+          <div className="space-y-4 p-6 border border-border/50 bg-card/20 backdrop-blur-sm hover:border-primary/50 transition-all duration-300">
+            <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center">
+              <Users className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground font-display">Community Driven</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Curated by developers and teams. Real-world experiences and use cases.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Savings Calculator Widget */}
-      <section className="mb-24 border border-border bg-card/30 p-8 md:p-12 backdrop-blur-sm">
-        <div className="grid gap-12 lg:grid-cols-3 lg:items-center">
+      <section className="relative mb-24 border border-border bg-card/30 p-8 md:p-12 backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-3 lg:items-center">
           
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
@@ -157,11 +233,12 @@ export default function Home() {
             </p>
           </div>
           
+          </div>
         </div>
       </section>
 
       {/* Main Directory & Filters */}
-      <section>
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         
         {/* Search & Pills */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
@@ -253,6 +330,26 @@ export default function Home() {
           </div>
         )}
 
+      </section>
+
+      {/* CTA Footer Section */}
+      <section className="relative mt-32 py-20 border-t border-border">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground font-display mb-6">
+            Ready to save thousands?
+          </h2>
+          <p className="text-lg text-muted-foreground font-sans mb-10 max-w-2xl mx-auto">
+            Generate your first AI-powered comparison now and discover the perfect open source alternative for your workflow.
+          </p>
+          <Link href="/add" className="inline-block pointer-events-auto">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold tracking-wide px-10 py-4 rounded-none shadow-lg shadow-primary/30 active:scale-95 transition-all">
+              Start Your Comparison
+            </Button>
+          </Link>
+          <p className="text-xs text-muted-foreground font-sans mt-6">
+            No credit card required • Free forever • Open source
+          </p>
+        </div>
       </section>
 
     </div>
