@@ -5,6 +5,7 @@ export default function Page() {
     <div className="flex min-h-screen items-center justify-center bg-[#07090e] px-4 py-12">
       <div className="w-full max-w-md flex justify-center">
         <SignUp
+          path="/sign-up"
           appearance={{
             elements: {
               card: "border border-white/5 bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl",
