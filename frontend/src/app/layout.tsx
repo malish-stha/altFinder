@@ -52,7 +52,7 @@ export default function RootLayout({
             notoSansHeading.variable
           )}
         >
-          <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-indigo-500/30">
+          <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-primary/30">
 
             {/* Render the Client Header component */}
             <Header />
