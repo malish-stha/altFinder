@@ -2,16 +2,12 @@ package com.altfinder.service;
 
 import com.altfinder.entity.AlternativeComparison;
 import com.altfinder.repository.AlternativeComparisonRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,25 +23,6 @@ public class AlternativeService {
     @Autowired
     private GeminiClient geminiClient;
 
-    @PostConstruct
-    public void seedDatabase() {
-        try {
-            if (comparisonRepository.count() == 0) {
-                System.out.println("Supabase database has zero entries. Initializing seed data...");
-                ClassPathResource resource = new ClassPathResource("data-seed.json");
-                try (InputStream inputStream = resource.getInputStream()) {
-                    List<AlternativeComparison> seeds = objectMapper.readValue(inputStream, new TypeReference<List<AlternativeComparison>>() {});
-                    comparisonRepository.saveAll(seeds);
-                    System.out.println("Seeded " + seeds.size() + " software comparisons successfully!");
-                }
-            } else {
-                System.out.println("Database already contains data. Skipping seeding.");
-            }
-        } catch (Exception e) {
-            System.err.println("Error seeding database: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     @Cacheable(value = "alternativesList")
     public List<AlternativeComparison> search(String query, String category) {
