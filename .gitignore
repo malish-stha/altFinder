@@ -1,0 +1,42 @@
+# Custom Local Rules
+context/
+
+# macOS / OS Files
+.DS_Store
+Thumbs.db
+*.log
+
+# Next.js / Node Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
+frontend/.env*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnp*
+frontend/.eslintcache
+
+# Spring Boot Backend (Maven)
+backend/target/
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/.mvn/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/*.iml
+backend/.idea/
+
+# General IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
