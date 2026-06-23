@@ -1,0 +1,13 @@
+target/
+Dockerfile
+.dockerignore
+.gitignore
+.git/
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+.mvn/
+mvnw
+mvnw.cmd
