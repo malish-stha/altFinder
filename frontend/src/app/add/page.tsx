@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { Sparkles, ArrowRight, CheckCircle2, AlertTriangle, Loader2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+import { useGenerateAlternativeMutation } from "../../lib/features/api/apiSlice";
 
 const LOADING_STEPS = [
   "Analyzing proprietary license structures and pricing...",
@@ -22,6 +21,8 @@ export default function AddAlternative() {
   const [submitting, setSubmitting] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const [generateAlternative] = useGenerateAlternativeMutation();
 
   // Cycle loading status text
   useEffect(() => {
@@ -46,26 +47,14 @@ export default function AddAlternative() {
       // Get Clerk JWT token
       const token = await getToken();
       
-      const res = await fetch(`${API_URL}/api/alternatives/generate?softwareName=${encodeURIComponent(softwareName)}`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        // Redirect on successful generation
-        router.push(`/alternatives/${data.slug}`);
-      } else {
-        const errNode = await res.json().catch(() => ({}));
-        setErrorMsg(errNode.message || "Failed to generate comparison. Please check server logs.");
-        setSubmitting(false);
-      }
+      const res = await generateAlternative({ softwareName, token: token ?? "" }).unwrap();
+      // Redirect on successful generation
+      router.push(`/alternatives/${res.slug}`);
     } catch (err) {
       console.error("AI Generation failed:", err);
-      setErrorMsg("Network error. Make sure the Spring Boot server is running on port 8080.");
+      const errorObj = err as { data?: { message?: string }; message?: string };
+      const errMsg = errorObj?.data?.message || errorObj?.message || "Failed to generate comparison. Please check server logs.";
+      setErrorMsg(errMsg);
       setSubmitting(false);
     }
   };

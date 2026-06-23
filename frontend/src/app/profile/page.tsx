@@ -5,93 +5,43 @@ import Link from "next/link";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { ArrowRight, ShieldCheck, Heart, Trash2, ArrowLeft } from "lucide-react";
 import { Button } from "../../components/ui/button";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-
-interface ComparisonItem {
-  slug: string;
-  commercialName: string;
-  alternativeName: string;
-  category: string;
-  alternativeDescription: string;
-  commercialPriceNumeric: number;
-  commercialPricePeriod: string;
-  upvoteCount: number;
-}
+import {
+  useGetBookmarksQuery,
+  useToggleBookmarkMutation
+} from "../../lib/features/api/apiSlice";
 
 export default function UserProfile() {
   const { user } = useUser();
   const { getToken, isSignedIn } = useAuth();
+  const [token, setToken] = useState<string | null>(null);
 
-  const [bookmarks, setBookmarks] = useState<ComparisonItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const [yearlySavings, setYearlySavings] = useState<number>(0);
-
-  // Load user bookmarks on mount
+  // Fetch Clerk Auth token for query/mutation
   useEffect(() => {
-    if (!isSignedIn) return;
-
-    async function loadBookmarks() {
-      setLoading(true);
-      try {
-        const token = await getToken();
-        const res = await fetch(`${API_URL}/api/users/me/bookmarks`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setBookmarks(data);
-
-          // Calculate aggregates
-          let sum = 0;
-          data.forEach((item: ComparisonItem) => {
-            const price = item.commercialPriceNumeric;
-            if (item.commercialPricePeriod === "yearly") {
-              sum += price / 12;
-            } else {
-              sum += price;
-            }
-          });
-          setYearlySavings(sum * 12);
-        }
-      } catch (err) {
-        console.error("Failed to load profile bookmarks:", err);
-      } finally {
-        setLoading(false);
-      }
+    if (isSignedIn) {
+      getToken().then((t) => setToken(t));
+    } else {
+      Promise.resolve().then(() => {
+        setToken((prev) => (prev === null ? prev : null));
+      });
     }
-    loadBookmarks();
   }, [isSignedIn, getToken]);
+
+  // Fetch bookmarks from RTK Query
+  const { data: bookmarks = [], isLoading: loading } = useGetBookmarksQuery(token ?? "", { skip: !token });
+
+  const [toggleBookmark] = useToggleBookmarkMutation();
+
+  // Calculate aggregates dynamically during render
+  const yearlySavings = bookmarks.reduce((sum, item) => {
+    const price = item.commercialPriceNumeric;
+    const monthlyEquivalent = item.commercialPricePeriod === "yearly" ? price / 12 : price;
+    return sum + (monthlyEquivalent * 12);
+  }, 0);
 
   const removeBookmark = async (slug: string) => {
     try {
-      const token = await getToken();
-      const res = await fetch(`${API_URL}/api/alternatives/${slug}/bookmark`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
-
-      if (res.ok) {
-        // Filter out of view and recalculate aggregates
-        const updated = bookmarks.filter((item) => item.slug !== slug);
-        setBookmarks(updated);
-
-        let sum = 0;
-        updated.forEach((item) => {
-          const price = item.commercialPriceNumeric;
-          if (item.commercialPricePeriod === "yearly") {
-            sum += price / 12;
-          } else {
-            sum += price;
-          }
-        });
-        setYearlySavings(sum * 12);
-      }
+      const authToken = await getToken();
+      await toggleBookmark({ slug, token: authToken ?? "" }).unwrap();
     } catch (err) {
       console.error("Failed to delete bookmark:", err);
     }

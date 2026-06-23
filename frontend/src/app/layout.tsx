@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "../lib/utils";
 import { Geist, Geist_Mono, Noto_Sans, Nunito_Sans } from "next/font/google";
 import Header from "../components/Header";
+import StoreProvider from "./StoreProvider";
 
 const nunitoSansHeading = Nunito_Sans({
   subsets: ["latin"],
@@ -37,31 +38,33 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html
-        lang="en"
-        className={cn(
-          "h-full",
-          "antialiased",
-          "dark", // Force dark mode theme
-          geistSans.variable,
-          geistMono.variable,
-          "font-sans",
-          notoSans.variable,
-          nunitoSansHeading.variable
-        )}
-      >
-        <body className="min-h-full flex flex-col bg-[#07090e] text-slate-100 selection:bg-indigo-500/30">
+      <StoreProvider>
+        <html
+          lang="en"
+          className={cn(
+            "h-full",
+            "antialiased",
+            "dark", // Force dark mode theme
+            geistSans.variable,
+            geistMono.variable,
+            "font-sans",
+            notoSans.variable,
+            nunitoSansHeading.variable
+          )}
+        >
+          <body className="min-h-full flex flex-col bg-[#07090e] text-slate-100 selection:bg-indigo-500/30">
 
-          {/* Render the Client Header component */}
-          <Header />
+            {/* Render the Client Header component */}
+            <Header />
 
-          {/* Core Content */}
-          <main className="flex-1">
-            {children}
-          </main>
+            {/* Core Content */}
+            <main className="flex-1">
+              {children}
+            </main>
 
-        </body>
-      </html>
+          </body>
+        </html>
+      </StoreProvider>
     </ClerkProvider>
   );
 }

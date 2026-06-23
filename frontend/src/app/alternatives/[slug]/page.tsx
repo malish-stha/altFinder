@@ -5,36 +5,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { 
-  ArrowLeft, Star, GitFork, Clock, Check, X, ExternalLink, 
-  ThumbsUp, Bookmark, Globe, AlertCircle 
+  ArrowLeft, ThumbsUp, Bookmark, Globe, AlertCircle,
+  Star, GitFork, Clock, Check, X, ExternalLink
 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+import {
+  useGetComparisonBySlugQuery,
+  useToggleUpvoteMutation,
+  useToggleBookmarkMutation,
+  useGetBookmarksQuery
+} from "../../../lib/features/api/apiSlice";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-}
-
-interface ComparisonDetail {
-  slug: string;
-  commercialName: string;
-  alternativeName: string;
-  category: string;
-  commercialDescription: string;
-  alternativeDescription: string;
-  featuresTableJson: string;
-  prosJson: string;
-  consJson: string;
-  whySwitchText: string;
-  commercialWebsite: string;
-  alternativeWebsite: string;
-  alternativeRepo: string;
-  commercialPriceNumeric: number;
-  commercialPricePeriod: string;
-  upvoteCount: number;
-  seoTitle: string;
-  seoDescription: string;
 }
 
 interface FeatureRow {
@@ -58,64 +41,39 @@ export default function AlternativeDetail({ params: paramsPromise }: PageProps) 
   const router = useRouter();
   const { isSignedIn, getToken } = useAuth();
 
-  const [comparison, setComparison] = useState<ComparisonDetail | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [hasUpvoted, setHasUpvoted] = useState<boolean>(false);
+
+  // Fetch Clerk Auth token for queries/mutations
+  useEffect(() => {
+    if (isSignedIn) {
+      getToken().then((t) => setToken(t));
+    } else {
+      Promise.resolve().then(() => {
+        setToken((prev) => (prev === null ? prev : null));
+      });
+    }
+  }, [isSignedIn, getToken]);
+
+  // Fetch comparison details via RTK Query
+  const { 
+    data: comparison, 
+    isLoading: loading, 
+    isError: error 
+  } = useGetComparisonBySlugQuery(slug);
+
+  // Fetch bookmarks via RTK Query
+  const { data: bookmarks = [] } = useGetBookmarksQuery(token ?? "", { skip: !token });
+  const hasBookmarked = bookmarks.some((item) => item.slug === slug);
+
+  // Mutations
+  const [toggleUpvote] = useToggleUpvoteMutation();
+  const [toggleBookmark] = useToggleBookmarkMutation();
+
+  const upvoteCount = comparison?.upvoteCount ?? 0;
 
   // GitHub Stats State
   const [githubStats, setGithubStats] = useState<GithubStats | null>(null);
-
-  // User Action States
-  const [hasUpvoted, setHasUpvoted] = useState<boolean>(false);
-  const [hasBookmarked, setHasBookmarked] = useState<boolean>(false);
-  const [upvoteCount, setUpvoteCount] = useState<number>(0);
-
-  // Fetch detailed data from Spring Boot
-  useEffect(() => {
-    async function fetchDetails() {
-      setLoading(true);
-      try {
-        const res = await fetch(`${API_URL}/api/alternatives/${slug}`);
-        if (res.ok) {
-          const data = await res.json();
-          setComparison(data);
-          setUpvoteCount(data.upvoteCount);
-        } else {
-          setError(true);
-        }
-      } catch (err) {
-        console.error("Failed to load comparison:", err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchDetails();
-  }, [slug]);
-
-  // Fetch user bookmark state on load if signed in
-  useEffect(() => {
-    if (!isSignedIn) return;
-
-    async function checkBookmarkState() {
-      try {
-        const token = await getToken();
-        const res = await fetch(`${API_URL}/api/users/me/bookmarks`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          }
-        });
-        if (res.ok) {
-          const bookmarks = await res.json();
-          const isBookmarked = bookmarks.some((item: ComparisonDetail) => item.slug === slug);
-          setHasBookmarked(isBookmarked);
-        }
-      } catch (err) {
-        console.error("Failed to fetch bookmarks:", err);
-      }
-    }
-    checkBookmarkState();
-  }, [slug, isSignedIn, getToken]);
 
   // Fetch GitHub live stats once comparison loads
   useEffect(() => {
@@ -166,7 +124,6 @@ export default function AlternativeDetail({ params: paramsPromise }: PageProps) 
     );
   }
 
-  // Parse arrays/JSON strings from backend columns
   const features: FeatureRow[] = comparison.featuresTableJson ? JSON.parse(comparison.featuresTableJson) : [];
   const pros: string[] = comparison.prosJson ? JSON.parse(comparison.prosJson) : [];
   const cons: string[] = comparison.consJson ? JSON.parse(comparison.consJson) : [];
@@ -178,18 +135,9 @@ export default function AlternativeDetail({ params: paramsPromise }: PageProps) 
       return;
     }
     try {
-      const token = await getToken();
-      const res = await fetch(`${API_URL}/api/alternatives/${slug}/upvote`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setHasUpvoted(data.action === "added");
-        setUpvoteCount(data.upvoteCount);
-      }
+      const authToken = await getToken();
+      const res = await toggleUpvote({ slug, token: authToken ?? "" }).unwrap();
+      setHasUpvoted(res.action === "added");
     } catch (err) {
       console.error("Failed to upvote:", err);
     }
@@ -202,17 +150,8 @@ export default function AlternativeDetail({ params: paramsPromise }: PageProps) 
       return;
     }
     try {
-      const token = await getToken();
-      const res = await fetch(`${API_URL}/api/alternatives/${slug}/bookmark`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setHasBookmarked(data.action === "added");
-      }
+      const authToken = await getToken();
+      await toggleBookmark({ slug, token: authToken ?? "" }).unwrap();
     } catch (err) {
       console.error("Failed to bookmark:", err);
     }

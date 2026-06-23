@@ -4,25 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, Calculator, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+import { useGetComparisonsQuery, useGetCategoriesQuery } from "../lib/features/api/apiSlice";
 
 interface CalculatorItem {
   id: string;
   name: string;
   price: number;
   period: string;
-}
-
-interface ComparisonItem {
-  slug: string;
-  commercialName: string;
-  alternativeName: string;
-  category: string;
-  alternativeDescription: string;
-  commercialPriceNumeric: number;
-  commercialPricePeriod: string;
-  upvoteCount: number;
 }
 
 // Predefined commercial pricing for the calculator
@@ -36,11 +24,26 @@ const CALCULATOR_ITEMS: CalculatorItem[] = [
 ];
 
 export default function Home() {
-  const [comparisons, setComparisons] = useState<ComparisonItem[]>([]);
-  const [categories, setCategories] = useState<string[]>(["All"]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [debouncedSearch, setDebouncedSearch] = useState<string>("");
+
+  // Simple debounce for search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Fetch comparisons and categories from RTK Query
+  const { data: comparisons = [], isFetching: loading } = useGetComparisonsQuery({
+    q: debouncedSearch,
+    category: selectedCategory,
+  });
+
+  const { data: categoriesData = [] } = useGetCategoriesQuery();
+  const categories = ["All", ...categoriesData];
 
   // Savings Calculator State
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
@@ -50,52 +53,6 @@ export default function Home() {
     return checkedItems[item.id] ? sum + item.price : sum;
   }, 0);
   const yearlySavings = monthlySavings * 12;
-
-  // Fetch comparisons from backend
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        const queryParam = searchQuery ? `q=${encodeURIComponent(searchQuery)}` : "";
-        const categoryParam = selectedCategory !== "All" ? `category=${encodeURIComponent(selectedCategory)}` : "";
-        
-        const params = [queryParam, categoryParam].filter(Boolean).join("&");
-        const res = await fetch(`${API_URL}/api/alternatives${params ? `?${params}` : ""}`);
-        
-        if (res.ok) {
-          const data = await res.json();
-          setComparisons(data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch comparisons:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    
-    // Simple debounce for search
-    const timer = setTimeout(() => {
-      fetchData();
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery, selectedCategory]);
-
-  // Fetch unique categories
-  useEffect(() => {
-    async function fetchCats() {
-      try {
-        const res = await fetch(`${API_URL}/api/categories`);
-        if (res.ok) {
-          const data = await res.json();
-          setCategories(["All", ...data]);
-        }
-      } catch (err) {
-        console.error("Failed to fetch categories:", err);
-      }
-    }
-    fetchCats();
-  }, []);
 
   // Savings are calculated dynamically in render
 

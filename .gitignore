@@ -31,6 +31,7 @@ backend/.project
 backend/.settings/
 backend/*.iml
 backend/.idea/
+backend/src/main/resources/application-local.properties
 
 # General IDEs and Editors
 .idea/
