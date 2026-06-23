@@ -65,27 +65,27 @@ export default function AddAlternative() {
       {!submitting ? (
         <div className="space-y-12">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-4">
+            <h1 className="text-4xl font-bold text-foreground mb-4">
               Generate a Comparison
             </h1>
-            <p className="text-lg text-white/60 leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               Enter any software or tool, and our AI will find open-source alternatives, compare features, and analyze pricing.
             </p>
           </div>
 
           {errorMsg && (
-            <div className="border border-red-500/30 bg-red-500/10 rounded-lg p-4 flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+            <div className="border border-destructive/30 bg-destructive/10 rounded-lg p-4 flex items-start gap-3">
+              <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-red-300">Generation Failed</p>
-                <p className="mt-1 text-sm text-red-200/80">{errorMsg}</p>
+                <p className="font-semibold text-destructive">Generation Failed</p>
+                <p className="mt-1 text-sm text-destructive/80">{errorMsg}</p>
               </div>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="software" className="block text-sm font-semibold text-white mb-3">
+              <label htmlFor="software" className="block text-sm font-semibold text-foreground mb-3">
                 Software Name
               </label>
               <input
@@ -95,13 +95,13 @@ export default function AddAlternative() {
                 placeholder="e.g. Photoshop, Salesforce, Slack"
                 value={softwareName}
                 onChange={(e) => setSoftwareName(e.target.value)}
-                className="w-full border border-white/10 bg-white/5 rounded-lg py-3 px-4 text-white placeholder-white/40 transition-all focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/50"
+                className="w-full border border-border bg-secondary rounded-lg py-3 px-4 text-foreground placeholder-muted-foreground transition-all focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 font-semibold flex items-center justify-center gap-2 rounded-lg transition-colors"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 font-semibold flex items-center justify-center gap-2 rounded-lg transition-colors"
             >
               Generate with AI <ArrowRight className="h-4 w-4" />
             </Button>
@@ -110,9 +110,9 @@ export default function AddAlternative() {
       ) : (
         /* Dynamic Multi-Step Loader */
         <div className="text-center py-12">
-          <Loader2 className="h-12 w-12 text-blue-500 animate-spin mx-auto mb-8" />
+          <Loader2 className="h-12 w-12 text-primary animate-spin mx-auto mb-8" />
           
-          <h2 className="text-2xl font-bold text-white mb-8">
+          <h2 className="text-2xl font-bold text-foreground mb-8">
             Analyzing...
           </h2>
           
@@ -122,17 +122,17 @@ export default function AddAlternative() {
                 key={idx} 
                 className={`flex items-start gap-3 text-sm transition-all duration-500 text-left ${
                   loadingStep === idx 
-                    ? "text-blue-300 opacity-100" 
+                    ? "text-primary opacity-100" 
                     : loadingStep > idx 
-                      ? "text-white/50 opacity-90" 
-                      : "text-white/30 opacity-40"
+                      ? "text-muted-foreground opacity-90" 
+                      : "text-muted-foreground opacity-40"
                 }`}
               >
                 {loadingStep > idx ? (
-                  <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5 flex-shrink-0" />
                 ) : (
                   <div className={`h-5 w-5 rounded-full border-2 shrink-0 mt-0.5 flex-shrink-0 ${
-                    loadingStep === idx ? "border-blue-400 border-t-transparent animate-spin" : "border-white/20"
+                    loadingStep === idx ? "border-primary border-t-transparent animate-spin" : "border-border"
                   }`} />
                 )}
                 <span className="text-xs">{step}</span>
@@ -140,7 +140,7 @@ export default function AddAlternative() {
             ))}
           </div>
           
-          <p className="mt-12 text-xs text-white/40">
+          <p className="mt-12 text-xs text-muted-foreground">
             This usually takes 10-20 seconds...
           </p>
         </div>

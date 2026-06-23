@@ -11,10 +11,7 @@ const notoSansHeading = Noto_Sans({
   variable: "--font-heading",
 });
 
-const notoSans = Noto_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+const notoSans = Noto_Sans({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
