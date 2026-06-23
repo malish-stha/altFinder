@@ -37,23 +37,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <StoreProvider>
-        <html
-          lang="en"
-          className={cn(
-            "h-full",
-            "antialiased",
-            "dark", // Force dark mode theme
-            geistSans.variable,
-            geistMono.variable,
-            "font-sans",
-            notoSans.variable,
-            notoSansHeading.variable
-          )}
-        >
-          <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-primary/30">
-
+    <html
+      lang="en"
+      className={cn(
+        "h-full",
+        "antialiased",
+        "dark", // Force dark mode theme
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+        notoSans.variable,
+        notoSansHeading.variable
+      )}
+    >
+      <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-primary/30">
+        <ClerkProvider>
+          <StoreProvider>
             {/* Render the Client Header component */}
             <Header />
 
@@ -61,10 +60,9 @@ export default function RootLayout({
             <main className="flex-1">
               {children}
             </main>
-
-          </body>
-        </html>
-      </StoreProvider>
-    </ClerkProvider>
+          </StoreProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
