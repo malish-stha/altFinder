@@ -328,12 +328,13 @@ export default function Home() {
             {/* Load More Button */}
             {comparisons.length > visibleCount && (
               <div className="flex justify-center mt-12">
-                <Button 
-                  onClick={() => setVisibleCount(prev => prev + 6)}
-                  className="bg-card/30 hover:bg-card/50 border border-border text-foreground hover:text-primary text-xs font-bold tracking-widest uppercase px-8 py-3.5 rounded-none active:scale-[0.98] transition-all duration-300"
-                >
-                  Load More Alternatives
-                </Button>
+                <Link href="/alternatives">
+                  <Button 
+                    className="bg-card/30 hover:bg-card/50 border border-border text-foreground hover:text-primary text-xs font-bold tracking-widest uppercase px-8 py-3.5 rounded-none active:scale-[0.98] transition-all duration-300"
+                  >
+                    Load More Alternatives
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
