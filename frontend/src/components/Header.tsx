@@ -23,7 +23,7 @@ export default function Header() {
 
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/alternatives" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Explore Directory
             </Link>
             <Link href="/add" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
